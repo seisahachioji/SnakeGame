@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_snakegame" default="compile.module.snakegame">
+  <dirname property="module.snakegame.basedir" file="${ant.file.module_snakegame}"/>
+  
+  <property name="module.jdk.home.snakegame" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.snakegame" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.snakegame" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.snakegame" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="snakegame.output.dir" value="${module.snakegame.basedir}/bin"/>
+  <property name="snakegame.testoutput.dir" value="${module.snakegame.basedir}/bin"/>
+  
+  <path id="snakegame.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="snakegame.module.production.classpath">
+    <path refid="${module.jdk.classpath.snakegame}"/>
+  </path>
+  
+  <path id="snakegame.runtime.production.module.classpath">
+    <pathelement location="${snakegame.output.dir}"/>
+  </path>
+  
+  <path id="snakegame.module.classpath">
+    <path refid="${module.jdk.classpath.snakegame}"/>
+    <pathelement location="${snakegame.output.dir}"/>
+  </path>
+  
+  <path id="snakegame.runtime.module.classpath">
+    <pathelement location="${snakegame.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.snakegame">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.snakegame">
+    <patternset refid="excluded.from.module.snakegame"/>
+  </patternset>
+  
+  <path id="snakegame.module.sourcepath">
+    <dirset dir="${module.snakegame.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.snakegame" depends="compile.module.snakegame.production,compile.module.snakegame.tests" description="Compile module SnakeGame"/>
+  
+  <target name="compile.module.snakegame.production" depends="register.custom.compilers" description="Compile module SnakeGame; production classes">
+    <mkdir dir="${snakegame.output.dir}"/>
+    <javac2 destdir="${snakegame.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.snakegame}/javac">
+      <compilerarg line="${compiler.args.snakegame}"/>
+      <bootclasspath refid="snakegame.module.bootclasspath"/>
+      <classpath refid="snakegame.module.production.classpath"/>
+      <src refid="snakegame.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.snakegame"/>
+    </javac2>
+    
+    <copy todir="${snakegame.output.dir}">
+      <fileset dir="${module.snakegame.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.snakegame.tests" depends="register.custom.compilers,compile.module.snakegame.production" description="compile module SnakeGame; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.snakegame" description="cleanup module">
+    <delete dir="${snakegame.output.dir}"/>
+    <delete dir="${snakegame.testoutput.dir}"/>
+  </target>
+</project>
