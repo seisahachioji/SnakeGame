@@ -14,7 +14,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	static Snake snake;
 	boolean space = false;
 
-	int input = 0;
+	static int input = 0;
 
 	public GameFrame() {
 		init();
@@ -73,33 +73,42 @@ public class GameFrame extends JFrame implements KeyListener {
 		if (keycode == KeyEvent.VK_RIGHT && keycode == KeyEvent.VK_LEFT) {
 			input = 3;
 		} else if (keycode == KeyEvent.VK_RIGHT) {
-			input = 1;
+			if(input ==2){
+				input =3;
+			}else input = 1;
 		} else if (keycode == KeyEvent.VK_LEFT) {
-			input = 2;
+			if(input ==1) {
+				input =3;
+			}input = 2;
 		}
 		if (keycode == KeyEvent.VK_SPACE) {
 			space = false;
+		}
+		if(keycode == KeyEvent.VK_K){
+//			隠しコマンド　Kキーでスコアを10増やす
+//			for(int i=0;i<10;i++)snake.eat();
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		int keycode = e.getKeyCode();
-		if (keycode == KeyEvent.VK_RIGHT && keycode == KeyEvent.VK_LEFT) {
-			input = 3;
-		} else if (keycode == KeyEvent.VK_RIGHT) {
-			if (input == 0) {
-				input = 1;
-			} else if (input == 2) {
-				input = 3;
-			}
-		} else if (keycode == KeyEvent.VK_LEFT) {
-			if (input == 0) {
-				input = 2;
-			} else if (input == 1) {
-				input = 3;
-			}
-		}
+
+//		int keycode = e.getKeyCode();
+//		if (keycode == KeyEvent.VK_RIGHT && keycode == KeyEvent.VK_LEFT) {
+//			input = 3;
+//		} else if (keycode == KeyEvent.VK_RIGHT) {
+//			if (input == 0) {
+//				input = 1;
+//			} else if (input == 2) {
+//				input = 3;
+//			}
+//		} else if (keycode == KeyEvent.VK_LEFT) {
+//			if (input == 0) {
+//				input = 2;
+//			} else if (input == 1) {
+//				input = 3;
+//			}
+//		}
 	}
 
 	@Override
